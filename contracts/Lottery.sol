@@ -39,6 +39,14 @@ contract Lottery {
         players = new address[](0);
     }
 
+    function getPlayers() public view returns (address[] memory) {
+        return players;
+    }
+
+    function getWinners() public view returns (address[] memory) {
+        return winners;
+    }
+
     modifier managerOnly() {
         require(msg.sender == manager, "Only the manager can pick a winner");
         _;
