@@ -30,12 +30,17 @@ contract Lottery {
             );
     }
 
-    function pickWinner() public payable {
+    function pickWinner() public payable managerOnly {
         uint256 winner = random() % players.length;
         address winnerAddress = players[winner];
         payable(winnerAddress).transfer((address(this).balance * 60) / 100);
         payable(manager).transfer((address(this).balance * 40) / 100);
         winners.push(winnerAddress);
         players = new address[](0);
+    }
+
+    modifier managerOnly() {
+        require(msg.sender == manager, "Only the manager can pick a winner");
+        _;
     }
 }
